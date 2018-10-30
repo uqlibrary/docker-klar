@@ -50,11 +50,11 @@ for i in $(echo ${ONLYDH[@]}); do
     RESULT=$($KLAR $i)
     if [ $? -eq 1 ]; then
         IMAGES="$IMAGES\n$i"
-        ALLRES="$ALLRES\n$RESULT"
+        ALLRES="$ALLRES\nResults for $i\n$RESULT"
         EMAIL=1
     fi
 done
 
 if [ $EMAIL -eq 1 ]; then
-        $AWS sns publish --topic-arn="$SNSTOPIC" --subject="rferris testing ok I'll stop now" --message="$(echo -e "$IMAGES\n$ALLRES")"
+        $AWS sns publish --topic-arn="$SNSTOPIC" --subject="Docker vulnerability scan has found issues" --message="$(echo -e "$IMAGES\n$ALLRES")"
 fi
