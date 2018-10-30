@@ -1,16 +1,16 @@
 #!/bin/bash
-if [[ -z ${CLAIR_HOST} ]] ; then
-    echo "FATAL ERROR on ${jobName}: clair host is not set"
+if [[ -z ${CLAIR_ADDR} ]] ; then
+    echo "FATAL ERROR: CLAIR_ADDR is not set"
     exit 1
 fi
 
 if [[ -z ${GITHUB_OAUTH} ]] ; then
-    echo "FATAL ERROR on ${jobName}: github oauth token is not set"
+    echo "FATAL ERROR: GITHUB_OAUTH token is not set"
     exit 1
 fi
 
 if [[ -z ${GHPATHS} ]] ; then
-    echo "FATAL ERROR on ${jobName}: github dockerfile paths not set"
+    echo "FATAL ERROR: GHPATHS not set"
     exit 1
 fi
 
