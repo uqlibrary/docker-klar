@@ -16,6 +16,7 @@ fi
 
 export CLAIR_OUTPUT=High
 export CLAIR_THRESHOLD=10
+export KLAR=/klar
 
 AWS=/usr/bin/aws
 TASKS=$($AWS ecs list-tasks| jq .[][]|sed -e 's/"//g')
@@ -37,7 +38,7 @@ done
 
 for i in $(echo ${ONLYDH[@]}); do
     echo "Scanning $i"
-    RESULT=$(klar $i)
+    RESULT=$($KLAR $i)
     if [ $? -eq 1 ]; then
         printf "%s" "$RESULT"
     fi
