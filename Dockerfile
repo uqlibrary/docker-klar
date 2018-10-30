@@ -8,5 +8,6 @@ FROM uqlibrary/alpine
 
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/klar /klar
+ADD klar.sh /klar.sh
 
 ENTRYPOINT ["/klar.sh"]
