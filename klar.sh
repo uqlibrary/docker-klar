@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ -z ${CLAIR_ADDR} ]] ; then
     echo "FATAL ERROR on ${jobName}: clair host is not set"
     exit 1
