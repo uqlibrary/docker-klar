@@ -14,6 +14,11 @@ if [[ -z ${GHPATHS} ]] ; then
     exit 1
 fi
 
+if [[ -z ${SNSTOPIC} ]] ; then
+    echo "FATAL ERROR: SNSTOPIC not set"
+    exit 1
+fi
+
 export CLAIR_OUTPUT=High
 export CLAIR_THRESHOLD=10
 export KLAR=/klar
@@ -36,10 +41,20 @@ for i in $(echo $GHPATHS | sed -e 's/;/ /g'); do
     fi
 done
 
+IMAGES="Images with security issues:"
+ALLRES=""
+EMAIL=0
+
 for i in $(echo ${ONLYDH[@]}); do
     echo "Scanning $i"
     RESULT=$($KLAR $i)
     if [ $? -eq 1 ]; then
-        printf "%s" "$RESULT"
+        IMAGES="$IMAGES\n$i"
+        ALLRES="$ALLRES\n$RESULT"
+        EMAIL=1
     fi
 done
+
+if [ $EMAIL -eq 1 ]; then
+        $AWS sns publish --topic-arn="$SNSTOPIC" --subject="rferris testing ok I'll stop now" --message="$(echo -e "$IMAGES\n$ALLRES")"
+fi
