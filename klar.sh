@@ -49,6 +49,7 @@ for i in $(echo ${ONLYDH[@]}); do
     echo "Scanning $i"
     RESULT=$($KLAR $i)
     if [ $? -eq 1 ]; then
+        echo "Issues found in $i"
         IMAGES="$IMAGES\n$i"
         ALLRES="$ALLRES\nResults for $i\n$RESULT"
         EMAIL=1
@@ -56,5 +57,6 @@ for i in $(echo ${ONLYDH[@]}); do
 done
 
 if [ $EMAIL -eq 1 ]; then
+        echo "Sending sns notification to $SNSTOPIC"
         $AWS sns publish --topic-arn="$SNSTOPIC" --subject="Docker vulnerability scan has found issues" --message="$(echo -e "$IMAGES\n$ALLRES")"
 fi
